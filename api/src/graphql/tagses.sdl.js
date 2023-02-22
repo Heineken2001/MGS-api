@@ -8,24 +8,9 @@ export const schema = gql`
         tag_translations: tag_translations
     }
 
-    type tag_translations {
-        id: BigInt!
-        tag_id: BigInt!
-        locale: String
-        slug: String
-        title: String
-        short_description: String
-        long_description: String
-        futured_image: String
-        formdata: JSON
-        jsonschema: JSON
-        uischema: JSON
-    }
-
     type Query {
         tagses(page: Int, limit: Int): [tags] @requireAuth
         tags(id: BigInt!): tags @requireAuth
-        tag_translations: [tag_translations] @requireAuth
     }
 
     input CreateTagsInput {
