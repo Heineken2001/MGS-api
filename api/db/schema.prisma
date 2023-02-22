@@ -1,6 +1,6 @@
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = "postgresql://postgres@localhost:5432/postgres?schema=mgs_v2"
 }
 
 generator client {
@@ -13,25 +13,25 @@ generator client {
 // TODO: Please remove the following example:
 
 model tags {
-  id         BigInt   @id @default(autoincrement())
-  type       String
-  created_at DateTime @default(now())
-  updated_at DateTime @default(now())
-  tag_group  String?  @default("default")
-  // tag_translations tag_translations?
+  id               BigInt            @id @default(autoincrement())
+  type             String
+  created_at       DateTime          @default(now())
+  updated_at       DateTime          @default(now())
+  tag_group        String?           @default("default")
+  tag_translations tag_translations?
 }
 
-// model tag_translations {
-//   id                BigInt  @id @default(autoincrement())
-//   tag_id            BigInt  @unique
-//   locale            String
-//   slug              String
-//   title             String
-//   short_description String?
-//   long_description  String?
-//   featured_image    String?
-//   formdata          Json?
-//   jsonschema        Json?
-//   uischema          Json?
-//   tags              tags    @relation(fields: [tag_id], references: [id])
-// }
+model tag_translations {
+  id                BigInt  @id @default(autoincrement())
+  tag_id            BigInt  @unique
+  locale            String
+  slug              String
+  title             String
+  short_description String?
+  long_description  String?
+  featured_image    String?
+  formdata          Json?
+  jsonschema        Json?
+  uischema          Json?
+  tags              tags    @relation(fields: [tag_id], references: [id])
+}
