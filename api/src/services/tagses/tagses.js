@@ -3,9 +3,18 @@ import { db } from 'src/lib/db'
 export const tagses = ({ page, limit }) => {
   return db.tags
   .findMany({
-    orderBy: { id: 'desc' }
+    orderBy: { id: 'desc' },
+    skip: limit * (page - 1),
+    take: limit,
+    include: {tag_translations: true}
   })
 }
+
+// export const tag_translations = () => {
+//     return db.tag_translations.findMany({
+//         orderBy: { id: 'desc' }
+//     });
+// };
 
 export const tags = ({ id }) => {
   return db.tags.findUnique({
