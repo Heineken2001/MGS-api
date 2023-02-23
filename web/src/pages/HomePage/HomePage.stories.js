@@ -1,10 +1,10 @@
-import HomePage from './HomePage'
+import HomePage from './HomePage';
 
 export const generated = () => {
-  return <HomePage />
-}
+    return <HomePage />;
+};
 
 export default {
-  title: 'Pages/HomePage',
-  component: HomePage,
-}
+    title: 'Pages/HomePage',
+    component: HomePage
+};

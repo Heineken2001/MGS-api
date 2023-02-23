@@ -13,11 +13,11 @@ generator client {
 // TODO: Please remove the following example:
 
 model tags {
-  id              BigInt            @id @default(autoincrement())
-  type            String
-  created_at      DateTime          @default(now())
-  updated_at      DateTime          @default(now())
-  tag_group       String?           @default("default")
+  id               BigInt            @id @default(autoincrement())
+  type             String
+  created_at       DateTime          @default(now())
+  updated_at       DateTime          @default(now())
+  tag_group        String?           @default("default")
   tag_translations tag_translations?
 }
 
@@ -34,4 +34,13 @@ model tag_translations {
   jsonschema        Json?
   uischema          Json?
   tags              tags    @relation(fields: [tag_id], references: [id])
+}
+
+model User {
+  id                  Int       @id @default(autoincrement())
+  email               String    @unique
+  hashedPassword      String // <─┐
+  salt                String // <─┼─ add these lines
+  resetToken          String? // <─┤
+  resetTokenExpiresAt DateTime? // <─┘
 }
