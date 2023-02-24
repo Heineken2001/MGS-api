@@ -26,7 +26,7 @@ export const getCurrentUser = async (session) => {
 
     return await db.users.findUnique({
         where: { id: session.id },
-        select: { id: true }
+        select: { id: true, email: true, roles: true }
     });
 };
 
@@ -105,10 +105,10 @@ export const hasRole = (roles) => {
  */
 export const requireAuth = ({ roles } = {}) => {
     if (!isAuthenticated()) {
-        throw new AuthenticationError("You don't have permission to do that.");
+        throw new AuthenticationError("You don't have permission!!!");
     }
 
     if (roles && !hasRole(roles)) {
-        throw new ForbiddenError("You don't have access to do that.");
+        throw new ForbiddenError("You don't have access!!!");
     }
 };

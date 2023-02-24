@@ -8,7 +8,7 @@ export const schema = gql`
         title: String
         short_description: String
         long_description: String
-        futured_image: String
+        featured_image: String
         formdata: JSON
         jsonschema: JSON
         uischema: JSON

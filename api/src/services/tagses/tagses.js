@@ -1,13 +1,24 @@
+import { requireAuth } from 'src/lib/auth';
 import { db } from 'src/lib/db'
 
-export const tagses = ({ page, limit }) => {
-  return db.tags
-  .findMany({
-    orderBy: { id: 'desc' },
-    skip: limit * (page - 1),
-    take: limit,
-    include: {tag_translations: true}
-  })
+export const tagses = async ({ page, limit, locale }) => {
+
+  requireAuth({ roles: 'admin' });
+  const tagses = await db.tags.findMany({
+      orderBy: { id: 'desc' },
+      skip: (page!=undefined && limit!=undefined)?Number(limit) * (Number(page) - 1):undefined,
+      take: limit,
+      include: {
+          tag_translations: {
+              where: {
+                  locale: locale
+              }
+          }
+      }
+  });
+  const total = await db.tags.count()
+  console.log(total);
+  return tagses
 }
 
 // export const tag_translations = () => {

@@ -3,16 +3,19 @@ import { Link, routes } from '@redwoodjs/router'
 import Tagses from 'src/components/Tags/Tagses'
 
 export const QUERY = gql`
-  query FindTagses {
-    tagses {
-      id
-      type
-      created_at
-      updated_at
-      tag_group
+    query FindTagses {
+        tagses(page: 1, limit: 10) {
+            id
+            type
+            created_at
+            updated_at
+            tag_group
+            tag_translations {
+                id
+            }
+        }
     }
-  }
-`
+`;
 
 export const Loading = () => <div>Loading...</div>
 

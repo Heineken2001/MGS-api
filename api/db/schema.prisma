@@ -13,17 +13,17 @@ generator client {
 // TODO: Please remove the following example:
 
 model tags {
-  id               BigInt            @id @default(autoincrement())
+  id               BigInt             @id @default(autoincrement())
   type             String
-  created_at       DateTime          @default(now())
-  updated_at       DateTime          @default(now())
-  tag_group        String?           @default("default")
-  tag_translations tag_translations?
+  created_at       DateTime           @default(now())
+  updated_at       DateTime           @default(now())
+  tag_group        String?            @default("default")
+  tag_translations tag_translations[]
 }
 
 model tag_translations {
   id                BigInt  @id @default(autoincrement())
-  tag_id            BigInt  @unique
+  tag_id            BigInt
   locale            String
   slug              String
   title             String
@@ -43,6 +43,7 @@ model users {
   salt                String // <─┼─ add these lines
   resetToken          String? // <─┤
   resetTokenExpiresAt DateTime? // <─┘
+  roles                String?
 }
 
 model categories {

@@ -5,14 +5,13 @@ export const schema = gql`
         created_at: DateTime
         updated_at: DateTime
         tag_group: String
-        tag_translations: tag_translations
+        tag_translations: [tag_translations]
     }
 
     type Query {
-        tagses(page: Int, limit: Int): [tags] @requireAuth
+        tagses(page: Int, limit: Int, locale: String): [tags] @requireAuth
         tags(id: BigInt!): tags @requireAuth
     }
-
     input CreateTagsInput {
         type: String!
         tag_group: String
