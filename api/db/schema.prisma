@@ -45,3 +45,23 @@ model users {
   resetTokenExpiresAt DateTime? // <─┘
 }
 
+model categories {
+  id            BigInt       @id @default(autoincrement())
+  parent_id     BigInt?
+  position      BigInt?
+  is_searchable Boolean
+  is_active     Boolean
+  created_at    DateTime?
+  updated_at    DateTime?
+  type          String?
+  parent        categories?  @relation("parentCategories", fields: [parent_id], references: [id])
+  categories    categories[] @relation("parentCategories")
+}
+
+model menus {
+  id         BigInt    @id @default(autoincrement())
+  is_active  Boolean
+  created_at DateTime?
+  updated_at DateTime?
+  position   Int?
+}
