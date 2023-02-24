@@ -2,8 +2,7 @@ import { requireAuth } from 'src/lib/auth';
 import { db } from 'src/lib/db'
 
 export const tagses = async ({ page, limit, locale }) => {
-
-  requireAuth({ roles: 'admin' });
+  requireAuth({ roles: ['admin', 'guest', 'editor'] });
   const tagses = await db.tags.findMany({
       orderBy: { id: 'desc' },
       skip: (page!=undefined && limit!=undefined)?Number(limit) * (Number(page) - 1):undefined,
@@ -28,12 +27,14 @@ export const tagses = async ({ page, limit, locale }) => {
 // };
 
 export const tags = ({ id }) => {
+  requireAuth({ roles: ['admin', 'guest', 'editor'] });
   return db.tags.findUnique({
     where: { id },
   })
 }
 
 export const createTags = ({ input }) => {
+  requireAuth({ roles: ['admin', 'editor'] });
   console.log(input);
   return db.tags.create({
     data: input,
@@ -41,6 +42,7 @@ export const createTags = ({ input }) => {
 }
 
 export const updateTags = ({ id, input }) => {
+  requireAuth({ roles: ['admin', 'editor'] });
   return db.tags.update({
     data: input,
     where: { id },
@@ -48,6 +50,7 @@ export const updateTags = ({ id, input }) => {
 }
 
 export const deleteTags = ({ id }) => {
+  requireAuth({ roles: ['admin'] });
   return db.tags.delete({
     where: { id },
   })
