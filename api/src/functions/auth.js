@@ -16,8 +16,8 @@ export const handler = async (event, context) => {
         // You could use this return value to, for example, show the email
         // address in a toast message so the user will know it worked and where
         // to look for the email.
-        handler: (user) => {
-            return user;
+        handler: (users) => {
+            return users;
         },
 
         // How long the resetToken is valid for, in seconds (default is 24 hours)
@@ -45,10 +45,10 @@ export const handler = async (event, context) => {
         // didn't validate their email yet), throw an error and it will be returned
         // by the `logIn()` function from `useAuth()` in the form of:
         // `{ message: 'Error message' }`
-        handler: (user) => {
+        handler: (users) => {
 
-            console.log(user);
-            return user;
+            console.log(users);
+            return users;
         },
 
         errors: {
@@ -70,7 +70,7 @@ export const handler = async (event, context) => {
         // the database. Returning anything truthy will automatically log the user
         // in. Return `false` otherwise, and in the Reset Password page redirect the
         // user to the login page.
-        handler: (_user) => {
+        handler: (_users) => {
             return true;
         },
 
@@ -106,7 +106,7 @@ export const handler = async (event, context) => {
         // If this returns anything else, it will be returned by the
         // `signUp()` function in the form of: `{ message: 'String here' }`.
         handler: ({ username, hashedPassword, salt, userAttributes }) => {
-            return db.user.create({
+            return db.users.create({
                 data: {
                     email: username,
                     hashedPassword: hashedPassword,
@@ -136,7 +136,7 @@ export const handler = async (event, context) => {
 
         // The name of the property you'd call on `db` to access your user table.
         // i.e. if your Prisma model is named `User` this value would be `user`, as in `db.user`
-        authModelAccessor: 'user',
+        authModelAccessor: 'users',
 
         // A map of what dbAuth calls a field to what your database calls it.
         // `id` is whatever column you use to uniquely identify a user (probably

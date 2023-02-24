@@ -36,7 +36,7 @@ model tag_translations {
   tags              tags    @relation(fields: [tag_id], references: [id])
 }
 
-model User {
+model users {
   id                  Int       @id @default(autoincrement())
   email               String    @unique
   hashedPassword      String // <─┐
@@ -44,3 +44,4 @@ model User {
   resetToken          String? // <─┤
   resetTokenExpiresAt DateTime? // <─┘
 }
+
