@@ -5,10 +5,11 @@ export const schema = gql`
         created_at: DateTime
         updated_at: DateTime
         position: Int
+        menu_translations: [MenuTranslations]
     }
 
     type Query {
-        menuses: [menus!]! @requireAuth
+        menuses(locale: String): [menus!]! @requireAuth
         menus(id: BigInt!): menus @requireAuth
     }
 

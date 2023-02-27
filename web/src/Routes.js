@@ -16,6 +16,18 @@ import { useAuth } from './auth'
 const Routes = () => {
   return (
     <Router useAuth={useAuth}>
+      <Set wrap={ScaffoldLayout} title="MenuTranslationses" titleTo="menuTranslationses" buttonLabel="New MenuTranslations" buttonTo="newMenuTranslations">
+        <Route path="/menu-translationses/new" page={MenuTranslationsNewMenuTranslationsPage} name="newMenuTranslations" />
+        <Route path="/menu-translationses/{id}/edit" page={MenuTranslationsEditMenuTranslationsPage} name="editMenuTranslations" />
+        <Route path="/menu-translationses/{id}" page={MenuTranslationsMenuTranslationsPage} name="menuTranslations" />
+        <Route path="/menu-translationses" page={MenuTranslationsMenuTranslationsesPage} name="menuTranslationses" />
+      </Set>
+      <Set wrap={ScaffoldLayout} title="CategoryTranslationses" titleTo="categoryTranslationses" buttonLabel="New CategoryTranslations" buttonTo="newCategoryTranslations">
+        <Route path="/category-translationses/new" page={CategoryTranslationsNewCategoryTranslationsPage} name="newCategoryTranslations" />
+        <Route path="/category-translationses/{id}/edit" page={CategoryTranslationsEditCategoryTranslationsPage} name="editCategoryTranslations" />
+        <Route path="/category-translationses/{id}" page={CategoryTranslationsCategoryTranslationsPage} name="categoryTranslations" />
+        <Route path="/category-translationses" page={CategoryTranslationsCategoryTranslationsesPage} name="categoryTranslationses" />
+      </Set>
       <Set wrap={ScaffoldLayout} title="Menuses" titleTo="menuses" buttonLabel="New Menus" buttonTo="newMenus">
         <Route path="/menuses/new" page={MenusNewMenusPage} name="newMenus" />
         <Route path="/menuses/{id}/edit" page={MenusEditMenusPage} name="editMenus" />

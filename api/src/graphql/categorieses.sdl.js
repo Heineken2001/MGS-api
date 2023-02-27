@@ -10,10 +10,11 @@ export const schema = gql`
         type: String
         parent: categories
         categories: [categories]
+        category_translations: [CategoryTranslations]
     }
 
     type Query {
-        categorieses: [categories!]! @requireAuth
+        categorieses(locale: String): [categories!]! @requireAuth
         categories(id: BigInt!): categories @requireAuth
     }
 

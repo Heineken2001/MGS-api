@@ -1,9 +1,17 @@
 import { db } from 'src/lib/db';
 
-export const categorieses = () => {
+export const categorieses = ({locale}) => {
   requireAuth({ roles: ['admin', 'guest', 'editor'] });
     return db.categories.findMany({
-        include: {parent: true, categories: true}
+        include: {
+            parent: true,
+            categories: true,
+            category_translations: {
+                where: {
+                    locale: locale
+                }
+            }
+        }
     });
 };
 

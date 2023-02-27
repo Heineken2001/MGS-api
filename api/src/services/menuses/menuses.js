@@ -1,7 +1,15 @@
 import { db } from 'src/lib/db';
 
-export const menuses = () => {
-    return db.menus.findMany();
+export const menuses = ({locale}) => {
+    return db.menus.findMany({
+        include: {
+            menu_translations: {
+                where: {
+                    locale: locale
+                }
+            }
+        }
+    });
 };
 
 export const menus = ({ id }) => {

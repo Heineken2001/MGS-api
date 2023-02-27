@@ -36,6 +36,40 @@ model tag_translations {
   tags              tags    @relation(fields: [tag_id], references: [id])
 }
 
+model categories {
+  id                    BigInt                 @id @default(autoincrement())
+  parent_id             BigInt?
+  position              BigInt?
+  is_searchable         Boolean
+  is_active             Boolean
+  created_at            DateTime?
+  updated_at            DateTime?
+  type                  String?
+  parent                categories?            @relation("parentCategories", fields: [parent_id], references: [id])
+  categories            categories[]           @relation("parentCategories")
+  Category_translations CategoryTranslations[]
+}
+
+model CategoryTranslations {
+  id                BigInt     @id @default(autoincrement())
+  category_id       BigInt
+  locale            String
+  name              String
+  content           String?
+  description       String?
+  slug              String
+  title             String?
+  short_description String?
+  long_description  String?
+  featured_image    String?
+  formdata          Json?
+  jsonschema        Json?
+  uischema          Json?
+  categories        categories @relation(fields: [category_id], references: [id])
+
+  @@map("category_translations")
+}
+
 model users {
   id                  Int       @id @default(autoincrement())
   email               String    @unique
@@ -43,26 +77,24 @@ model users {
   salt                String // <─┼─ add these lines
   resetToken          String? // <─┤
   resetTokenExpiresAt DateTime? // <─┘
-  roles                String?
-}
-
-model categories {
-  id            BigInt       @id @default(autoincrement())
-  parent_id     BigInt?
-  position      BigInt?
-  is_searchable Boolean
-  is_active     Boolean
-  created_at    DateTime?
-  updated_at    DateTime?
-  type          String?
-  parent        categories?  @relation("parentCategories", fields: [parent_id], references: [id])
-  categories    categories[] @relation("parentCategories")
+  roles               String?
 }
 
 model menus {
-  id         BigInt    @id @default(autoincrement())
-  is_active  Boolean
-  created_at DateTime?
-  updated_at DateTime?
-  position   Int?
+  id                BigInt              @id @default(autoincrement())
+  is_active         Boolean
+  created_at        DateTime?
+  updated_at        DateTime?
+  position          Int?
+  menu_translations MenuTranslations[]
+}
+
+model MenuTranslations {
+  id      BigInt @id @default(autoincrement())
+  menu_id BigInt
+  locale  String
+  name    String
+  menus   menus  @relation(fields: [menu_id], references: [id])
+
+  @@map("menu_translations")
 }

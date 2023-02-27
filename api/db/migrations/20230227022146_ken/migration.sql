@@ -54,6 +54,26 @@ CREATE TABLE "categories" (
 );
 
 -- CreateTable
+CREATE TABLE "Category_translations" (
+    "id" BIGSERIAL NOT NULL,
+    "category_id" BIGINT NOT NULL,
+    "locale" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "content" TEXT,
+    "description" TEXT,
+    "slug" TEXT NOT NULL,
+    "title" TEXT,
+    "short_description" TEXT,
+    "long_description" TEXT,
+    "featured_image" TEXT,
+    "formdata" JSONB,
+    "jsonschema" JSONB,
+    "uischema" JSONB,
+
+    CONSTRAINT "Category_translations_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "menus" (
     "id" BIGSERIAL NOT NULL,
     "is_active" BOOLEAN NOT NULL,
@@ -64,6 +84,16 @@ CREATE TABLE "menus" (
     CONSTRAINT "menus_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "menu_translations" (
+    "id" BIGSERIAL NOT NULL,
+    "menu_id" BIGINT NOT NULL,
+    "locale" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+
+    CONSTRAINT "menu_translations_pkey" PRIMARY KEY ("id")
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
 
@@ -72,3 +102,9 @@ ALTER TABLE "tag_translations" ADD CONSTRAINT "tag_translations_tag_id_fkey" FOR
 
 -- AddForeignKey
 ALTER TABLE "categories" ADD CONSTRAINT "categories_parent_id_fkey" FOREIGN KEY ("parent_id") REFERENCES "categories"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Category_translations" ADD CONSTRAINT "Category_translations_category_id_fkey" FOREIGN KEY ("category_id") REFERENCES "categories"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "menu_translations" ADD CONSTRAINT "menu_translations_menu_id_fkey" FOREIGN KEY ("menu_id") REFERENCES "menus"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
