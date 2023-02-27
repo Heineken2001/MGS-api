@@ -1,5 +1,5 @@
 export const schema = gql`
-    type categories {
+    type Categories {
         id: BigInt!
         parent_id: BigInt
         position: BigInt
@@ -8,14 +8,14 @@ export const schema = gql`
         created_at: DateTime
         updated_at: DateTime
         type: String
-        parent: categories
-        categories: [categories]
+        parent: Categories
+        categories: [Categories]
         category_translations: [CategoryTranslations]
     }
 
     type Query {
-        categorieses(locale: String): [categories!]! @requireAuth
-        categories(id: BigInt!): categories @requireAuth
+        categorieses(locale: String): [Categories!]! @requireAuth
+        categories(id: BigInt!): Categories @requireAuth
     }
 
     input CreateCategoriesInput {
@@ -39,12 +39,12 @@ export const schema = gql`
     }
 
     type Mutation {
-        createCategories(input: CreateCategoriesInput!): categories!
+        createCategories(input: CreateCategoriesInput!): Categories!
             @requireAuth
         updateCategories(
             id: BigInt!
             input: UpdateCategoriesInput!
-        ): categories! @requireAuth
-        deleteCategories(id: BigInt!): categories! @requireAuth
+        ): Categories! @requireAuth
+        deleteCategories(id: BigInt!): Categories! @requireAuth
     }
 `;

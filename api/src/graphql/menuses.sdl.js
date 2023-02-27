@@ -1,5 +1,5 @@
 export const schema = gql`
-    type menus {
+    type Menus {
         id: BigInt!
         is_active: Boolean!
         created_at: DateTime
@@ -9,8 +9,8 @@ export const schema = gql`
     }
 
     type Query {
-        menuses(locale: String): [menus!]! @requireAuth
-        menus(id: BigInt!): menus @requireAuth
+        menuses(locale: String): [Menus!]! @requireAuth
+        menus(id: BigInt!): Menus @requireAuth
     }
 
     input CreateMenusInput {
@@ -26,8 +26,8 @@ export const schema = gql`
     }
 
     type Mutation {
-        createMenus(input: CreateMenusInput!): menus! @requireAuth
-        updateMenus(id: BigInt!, input: UpdateMenusInput!): menus! @requireAuth
-        deleteMenus(id: BigInt!): menus! @requireAuth
+        createMenus(input: CreateMenusInput!): Menus! @requireAuth
+        updateMenus(id: BigInt!, input: UpdateMenusInput!): Menus! @requireAuth
+        deleteMenus(id: BigInt!): Menus! @requireAuth
     }
 `;

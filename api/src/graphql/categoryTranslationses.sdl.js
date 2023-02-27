@@ -14,7 +14,7 @@ export const schema = gql`
         formdata: JSON
         jsonschema: JSON
         uischema: JSON
-        categories: categories!
+        categories: Categories!
     }
 
     type Query {

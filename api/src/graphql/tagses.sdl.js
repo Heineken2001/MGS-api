@@ -1,16 +1,16 @@
 export const schema = gql`
-    type tags {
+    type Tags {
         id: BigInt!
         type: String!
         created_at: DateTime
         updated_at: DateTime
         tag_group: String
-        tag_translations: [tag_translations]
+        tag_translations: [TagTranslations]
     }
 
     type Query {
-        tagses(page: Int, limit: Int, locale: String): [tags] @requireAuth
-        tags(id: BigInt!): tags @requireAuth
+        tagses(page: Int, limit: Int, locale: String): [Tags] @requireAuth
+        tags(id: BigInt!): Tags @requireAuth
     }
     input CreateTagsInput {
         type: String!
@@ -23,8 +23,8 @@ export const schema = gql`
     }
 
     type Mutation {
-        createTags(input: CreateTagsInput!): tags! @requireAuth
-        updateTags(id: BigInt!, input: UpdateTagsInput!): tags! @requireAuth
-        deleteTags(id: BigInt!): tags! @requireAuth
+        createTags(input: CreateTagsInput!): Tags! @requireAuth
+        updateTags(id: BigInt!, input: UpdateTagsInput!): Tags! @requireAuth
+        deleteTags(id: BigInt!): Tags! @requireAuth
     }
 `;

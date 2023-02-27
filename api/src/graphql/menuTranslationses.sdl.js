@@ -4,7 +4,7 @@ export const schema = gql`
         menu_id: BigInt!
         locale: String!
         name: String!
-        menus: menus!
+        menus: Menus!
     }
 
     type Query {

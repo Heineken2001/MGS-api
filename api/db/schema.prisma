@@ -12,16 +12,18 @@ generator client {
 // to create migrations for them and apply to your dev DB.
 // TODO: Please remove the following example:
 
-model tags {
-  id               BigInt             @id @default(autoincrement())
+model Tags {
+  id               BigInt            @id @default(autoincrement())
   type             String
-  created_at       DateTime           @default(now())
-  updated_at       DateTime           @default(now())
-  tag_group        String?            @default("default")
-  tag_translations tag_translations[]
+  created_at       DateTime          @default(now())
+  updated_at       DateTime          @default(now())
+  tag_group        String?           @default("default")
+  tag_translations TagTranslations[]
+
+  @@map("tags")
 }
 
-model tag_translations {
+model TagTranslations {
   id                BigInt  @id @default(autoincrement())
   tag_id            BigInt
   locale            String
@@ -33,10 +35,12 @@ model tag_translations {
   formdata          Json?
   jsonschema        Json?
   uischema          Json?
-  tags              tags    @relation(fields: [tag_id], references: [id])
+  tags              Tags    @relation(fields: [tag_id], references: [id])
+
+  @@map("tag_translations")
 }
 
-model categories {
+model Categories {
   id                    BigInt                 @id @default(autoincrement())
   parent_id             BigInt?
   position              BigInt?
@@ -45,9 +49,11 @@ model categories {
   created_at            DateTime?
   updated_at            DateTime?
   type                  String?
-  parent                categories?            @relation("parentCategories", fields: [parent_id], references: [id])
-  categories            categories[]           @relation("parentCategories")
+  parent                Categories?            @relation("parentCategories", fields: [parent_id], references: [id])
+  categories            Categories[]           @relation("parentCategories")
   Category_translations CategoryTranslations[]
+
+  @@map("categories")
 }
 
 model CategoryTranslations {
@@ -65,12 +71,12 @@ model CategoryTranslations {
   formdata          Json?
   jsonschema        Json?
   uischema          Json?
-  categories        categories @relation(fields: [category_id], references: [id])
+  categories        Categories @relation(fields: [category_id], references: [id])
 
   @@map("category_translations")
 }
 
-model users {
+model Users {
   id                  Int       @id @default(autoincrement())
   email               String    @unique
   hashedPassword      String // <─┐
@@ -78,15 +84,19 @@ model users {
   resetToken          String? // <─┤
   resetTokenExpiresAt DateTime? // <─┘
   roles               String?
+
+  @@map("users")
 }
 
-model menus {
-  id                BigInt              @id @default(autoincrement())
+model Menus {
+  id                BigInt             @id @default(autoincrement())
   is_active         Boolean
   created_at        DateTime?
   updated_at        DateTime?
   position          Int?
   menu_translations MenuTranslations[]
+
+  @@map("menus")
 }
 
 model MenuTranslations {
@@ -94,7 +104,267 @@ model MenuTranslations {
   menu_id BigInt
   locale  String
   name    String
-  menus   menus  @relation(fields: [menu_id], references: [id])
+  menus   Menus  @relation(fields: [menu_id], references: [id])
 
   @@map("menu_translations")
+}
+
+model Templates {
+  id                    BigInt                 @id @default(autoincrement())
+  is_active             Boolean
+  deleted_at            DateTime?
+  created_at            DateTime?
+  updated_at            DateTime?
+  template_translations TemplateTranslations[]
+
+  @@map("templates")
+}
+
+model TemplateTranslations {
+  id          BigInt    @id @default(autoincrement())
+  template_id BigInt
+  slug        String
+  title       String
+  locale      String
+  templates   Templates @relation(fields: [template_id], references: [id])
+
+  @@map("template_translations")
+}
+
+model Blocks {
+  id                BigInt              @id @default(autoincrement())
+  is_active         Boolean
+  html              String?
+  scss              String?
+  image_feature     String?
+  mobile            String?
+  amp               String?
+  created_at        DateTime?
+  updated_at        DateTime?
+  deleted_at        DateTime?
+  block_translation BlockTranslations[]
+
+  @@map("blocks")
+}
+
+model BlockTranslations {
+  id         BigInt    @id @default(autoincrement())
+  block_id   BigInt
+  locale     String
+  name       String
+  created_at DateTime?
+  updated_at DateTime?
+  blocks     Blocks    @relation(fields: [block_id], references: [id])
+
+  @@map("block_translations")
+}
+
+model BlockValues {
+  id                       BigInt                   @id @default(autoincrement())
+  code                     String?
+  block_id                 BigInt?
+  position                 BigInt
+  key                      String
+  type                     String
+  created_at               DateTime?
+  updated_at               DateTime?
+  block_value_translations BlockValueTranslations[]
+
+  @@map("block_values")
+}
+
+model BlockValueTranslations {
+  id             BigInt      @id @default(autoincrement())
+  block_value_id BigInt
+  locale         String
+  title          String
+  created_at     DateTime?
+  updated_at     DateTime?
+  block_values   BlockValues @relation(fields: [block_value_id], references: [id])
+
+  @@map("block_value_translations")
+}
+
+model Brands {
+  id                 BigInt              @id @default(autoincrement())
+  slug               String
+  is_active          Boolean
+  created_at         DateTime?
+  updated_at         DateTime?
+  brand_translations BrandTranslations[]
+
+  @@map("brands")
+}
+
+model BrandTranslations {
+  id       BigInt  @id @default(autoincrement())
+  brand_id BigInt
+  locale   String
+  name     String
+  Brands   Brands? @relation(fields: [brand_id], references: [id])
+
+  @@map("brand_translations")
+}
+
+model Builders {
+  id                   BigInt                @id @default(autoincrement())
+  slug                 String
+  is_active            Boolean
+  is_captcha           Boolean
+  is_redirect          String?
+  site_key             String?
+  secret_key           String?
+  created_at           DateTime?
+  updated_at           DateTime?
+  builder_translations BuilderTranslations[]
+
+  @@map("builders")
+}
+
+model BuilderTranslations {
+  id             BigInt   @id @default(autoincrement())
+  builder_id     BigInt
+  locale         String
+  name           String
+  body           String?
+  embedded       String
+  jsonschemaform Json
+  Builders        Builders? @relation(fields: [builder_id], references: [id])
+
+  @@map("builder_translations")
+}
+
+model CategoryGroupNews {
+  id                               BigInt                          @id @default(autoincrement())
+  parent_id                        BigInt?
+  slug                             String
+  position                         BigInt?
+  is_searchable                    Boolean
+  is_active                        Boolean
+  created_at                       DateTime?
+  updated_at                       DateTime?
+  category_group_news_translations CategoryGroupNewsTranslations[]
+
+  @@map("category_group_new")
+}
+
+model CategoryGroupNewsTranslations {
+  id                     BigInt             @id @default(autoincrement())
+  category_group_news_id BigInt
+  locale                 String
+  name                   String
+  description            String?
+  title_2                String
+  CategoryGroupNews      CategoryGroupNews? @relation(fields: [category_group_news_id], references: [id])
+
+  @@map("category_group_news_translations")
+}
+
+model CategoryNews {
+  id                         BigInt                     @id @default(autoincrement())
+  parent_id                  BigInt?
+  slug                       String
+  position                   BigInt?
+  is_searchable              Boolean
+  is_active                  Boolean
+  created_at                 DateTime?
+  updated_at                 DateTime?
+  category_news_translations CategoryNewsTranslations[]
+
+  @@map("category_news")
+}
+
+model CategoryNewsTranslations {
+  id               BigInt        @id @default(autoincrement())
+  category_news_id BigInt
+  locale           String
+  name             String
+  description      String?
+  CategoryNews     CategoryNews? @relation(fields: [category_news_id], references: [id])
+
+  @@map("category_news_translations")
+}
+
+model Channels {
+  id                   BigInt                @id @default(autoincrement())
+  slug                 String
+  is_active            Boolean
+  created_at           DateTime?
+  updated_at           DateTime?
+  channel_translations ChannelTranslations[]
+
+  @@map("channels")
+}
+
+model ChannelTranslations {
+  id         BigInt    @id @default(autoincrement())
+  channel_id BigInt
+  locale     String
+  name       String
+  body       String?
+  Channels   Channels? @relation(fields: [channel_id], references: [id])
+
+  @@map("channel_translations")
+}
+
+model Collections {
+  id                      BigInt                   @id @default(autoincrement())
+  target                  String
+  conditions              Json?
+  type                    String
+  is_active               Boolean
+  deleted_at              DateTime?
+  created_at              DateTime?
+  updated_at              DateTime?
+  post_type               String?
+  collection_translations CollectionTranslations[]
+
+  @@map("collections")
+}
+
+model CollectionTranslations {
+  id                BigInt       @id @default(autoincrement())
+  collection_id     BigInt
+  locale            String
+  slug              String
+  title             String
+  short_description String?
+  long_description  String?
+  featured_image    String?
+  formdata          Json?
+  jsonschema        Json?
+  uischema          Json?
+  Collections       Collections? @relation(fields: [collection_id], references: [id])
+
+  @@map("collection_translations")
+}
+
+model Coupons {
+  id                       BigInt    @id @default(autoincrement())
+  code                     String
+  value                    Decimal?
+  is_percent               Boolean
+  free_shipping            Boolean
+  minimum_spend            Decimal?
+  maximum_spend            Decimal?
+  usage_limit_per_coupon   BigInt?
+  usage_limut_per_customer BigInt?
+  used                     BigInt    @default(0)
+  is_active                Boolean
+  start_date               DateTime?
+  end_date                 DateTime?
+  deleted_at               DateTime?
+  created_at               DateTime?
+  updated_at               DateTime?
+
+  @@map("coupons")
+}
+
+model CouponTranslations {
+  id        BigInt @id @default(autoincrement())
+  coupon_id BigInt
+  locale    String
+  name      String
+
+  @@map("coupon_translations")
 }
